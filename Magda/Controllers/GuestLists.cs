@@ -10,87 +10,87 @@ using Magda.Models;
 
 namespace Magda.Controllers
 {
-    public class Orders : Controller
+    public class GuestLists : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public Orders(ApplicationDbContext context)
+        public GuestLists(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Orders
+        // GET: GuestLists
         public async Task<IActionResult> Index()
         {
-              return _context.Order != null ? 
-                          View(await _context.Order.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Order'  is null.");
+              return _context.GuestList != null ? 
+                          View(await _context.GuestList.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.GuestList'  is null.");
         }
 
-        // GET: Orders/Details/5
+        // GET: GuestLists/Details/5
         public async Task<IActionResult> Details(string id)
         {
-            if (id == null || _context.Order == null)
+            if (id == null || _context.GuestList == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
+            var guestList = await _context.GuestList
+                .FirstOrDefaultAsync(m => m.ListId == id);
+            if (guestList == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(guestList);
         }
 
-        // GET: Orders/Create
+        // GET: GuestLists/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Orders/Create
+        // POST: GuestLists/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Date,OrderType,RoomName,AdditionalRemarks")] Order order)
+        public async Task<IActionResult> Create([Bind("ListId")] GuestList guestList)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(order);
+                _context.Add(guestList);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(guestList);
         }
 
-        // GET: Orders/Edit/5
+        // GET: GuestLists/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
-            if (id == null || _context.Order == null)
+            if (id == null || _context.GuestList == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order.FindAsync(id);
-            if (order == null)
+            var guestList = await _context.GuestList.FindAsync(id);
+            if (guestList == null)
             {
                 return NotFound();
             }
-            return View(order);
+            return View(guestList);
         }
 
-        // POST: Orders/Edit/5
+        // POST: GuestLists/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Date,OrderType,RoomName,AdditionalRemarks")] Order order)
+        public async Task<IActionResult> Edit(string id, [Bind("ListId")] GuestList guestList)
         {
-            if (id != order.Id)
+            if (id != guestList.ListId)
             {
                 return NotFound();
             }
@@ -99,12 +99,12 @@ namespace Magda.Controllers
             {
                 try
                 {
-                    _context.Update(order);
+                    _context.Update(guestList);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.Id))
+                    if (!GuestListExists(guestList.ListId))
                     {
                         return NotFound();
                     }
@@ -115,49 +115,49 @@ namespace Magda.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(order);
+            return View(guestList);
         }
 
-        // GET: Orders/Delete/5
+        // GET: GuestLists/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
-            if (id == null || _context.Order == null)
+            if (id == null || _context.GuestList == null)
             {
                 return NotFound();
             }
 
-            var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (order == null)
+            var guestList = await _context.GuestList
+                .FirstOrDefaultAsync(m => m.ListId == id);
+            if (guestList == null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(guestList);
         }
 
-        // POST: Orders/Delete/5
+        // POST: GuestLists/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            if (_context.Order == null)
+            if (_context.GuestList == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Order'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.GuestList'  is null.");
             }
-            var order = await _context.Order.FindAsync(id);
-            if (order != null)
+            var guestList = await _context.GuestList.FindAsync(id);
+            if (guestList != null)
             {
-                _context.Order.Remove(order);
+                _context.GuestList.Remove(guestList);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool OrderExists(string id)
+        private bool GuestListExists(string id)
         {
-          return (_context.Order?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.GuestList?.Any(e => e.ListId == id)).GetValueOrDefault();
         }
     }
 }

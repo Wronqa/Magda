@@ -18,12 +18,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Data\Migrations\" />
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
     <None Remove="Microsoft.EntityFrameworkCore.Sqlite" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Data\Migrations\" />
   </ItemGroup>
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 

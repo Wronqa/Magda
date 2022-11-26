@@ -49,9 +49,15 @@
                 @Html.DisplayFor(modelItem => item.AdditionalRemarks)
             </td>
             <td>
+                <button onclick="location.href='@Url.Action("Create", "GuestLists", new {ListId=item.Id})'">szmata</button>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @using (Html.BeginForm("Create", "GuestLists"))
+                {
+                    <input type="text" name="ListId" value="@item.Id" />
+                    <input type="submit" />
+                }
             </td>
         </tr>
 }

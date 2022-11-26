@@ -7,7 +7,9 @@ namespace Magda.Data
     public class ApplicationDbContext : IdentityDbContext
     {
         public DbSet<Order> Order { get; set; }
-        
+        public DbSet<GuestList> GuestList { get; set; } 
+        public DbSet<Guest> Guest { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options) 
         {

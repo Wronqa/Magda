@@ -6,7 +6,6 @@ namespace Magda.Models
 {
 	public class Order
 	{
-
 		
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public string? Id { get; set; }
@@ -21,6 +20,9 @@ namespace Magda.Models
 		public EventType OrderType { get; set; }
         public string RoomName { get; set; }
         public string AdditionalRemarks { get; set; }
+
+
+        public GuestList? GuestList { get; set; }
 
         public Order()
 		{

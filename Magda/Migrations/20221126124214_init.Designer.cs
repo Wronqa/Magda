@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Magda.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221126074843_test")]
-    partial class test
+    [Migration("20221126124214_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,47 @@ namespace Magda.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("Magda.Models.Guest", b =>
+                {
+                    b.Property<string>("GuestId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("AdditionalRemarks")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GuestListListId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("GuestId");
+
+                    b.HasIndex("GuestListListId");
+
+                    b.ToTable("Guest");
+                });
+
+            modelBuilder.Entity("Magda.Models.GuestList", b =>
+                {
+                    b.Property<string>("ListId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("GuestId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ListId");
+
+                    b.ToTable("GuestList");
+                });
 
             modelBuilder.Entity("Magda.Models.Order", b =>
                 {
@@ -255,6 +296,13 @@ namespace Magda.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Magda.Models.Guest", b =>
+                {
+                    b.HasOne("Magda.Models.GuestList", null)
+                        .WithMany("Guests")
+                        .HasForeignKey("GuestListListId");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -304,6 +352,11 @@ namespace Magda.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Magda.Models.GuestList", b =>
+                {
+                    b.Navigation("Guests");
                 });
 #pragma warning restore 612, 618
         }

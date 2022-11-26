@@ -1,0 +1,18 @@
+@model Magda.Models.GuestList
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>GuestList</h4>
+    <hr />
+    <dl class="row">
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.ListId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Magda.Migrations
 {
-    public partial class test : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -46,6 +46,18 @@ namespace Magda.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GuestList",
+                columns: table => new
+                {
+                    ListId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    GuestId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GuestList", x => x.ListId);
                 });
 
             migrationBuilder.CreateTable(
@@ -170,6 +182,26 @@ namespace Magda.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Guest",
+                columns: table => new
+                {
+                    GuestId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AdditionalRemarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    GuestListListId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Guest", x => x.GuestId);
+                    table.ForeignKey(
+                        name: "FK_Guest_GuestList_GuestListListId",
+                        column: x => x.GuestListListId,
+                        principalTable: "GuestList",
+                        principalColumn: "ListId");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -208,6 +240,11 @@ namespace Magda.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Guest_GuestListListId",
+                table: "Guest",
+                column: "GuestListListId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -228,6 +265,9 @@ namespace Magda.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Guest");
+
+            migrationBuilder.DropTable(
                 name: "Order");
 
             migrationBuilder.DropTable(
@@ -235,6 +275,9 @@ namespace Magda.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "GuestList");
         }
     }
 }
