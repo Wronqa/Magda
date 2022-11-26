@@ -49,22 +49,10 @@ namespace Magda.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GuestList",
-                columns: table => new
-                {
-                    ListId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    GuestId = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GuestList", x => x.ListId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Order",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderType = table.Column<int>(type: "int", nullable: false),
@@ -73,7 +61,7 @@ namespace Magda.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.PrimaryKey("PK_Order", x => x.OrderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -183,6 +171,24 @@ namespace Magda.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "GuestList",
+                columns: table => new
+                {
+                    ListId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OrderId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GuestList", x => x.ListId);
+                    table.ForeignKey(
+                        name: "FK_GuestList_Order_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Guest",
                 columns: table => new
                 {
@@ -190,6 +196,7 @@ namespace Magda.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdditionalRemarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ListId = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GuestListListId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -245,6 +252,12 @@ namespace Magda.Migrations
                 name: "IX_Guest_GuestListListId",
                 table: "Guest",
                 column: "GuestListListId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_GuestList_OrderId",
+                table: "GuestList",
+                column: "OrderId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -268,9 +281,6 @@ namespace Magda.Migrations
                 name: "Guest");
 
             migrationBuilder.DropTable(
-                name: "Order");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -278,6 +288,9 @@ namespace Magda.Migrations
 
             migrationBuilder.DropTable(
                 name: "GuestList");
+
+            migrationBuilder.DropTable(
+                name: "Order");
         }
     }
 }

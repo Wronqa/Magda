@@ -18,9 +18,10 @@ namespace Magda.Models
 
 		public string? AdditionalRemarks { get; set; }
 
-        public string ListId { get; set; }
+		
+        public string? ListId { get; set; }
 
-        public GuestList GuestList { get; set; }
+        public GuestList? GuestList { get; set; }
 		
 
 		public Guest()

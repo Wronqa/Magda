@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Magda.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221126124214_init")]
+    [Migration("20221126201116_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace Magda.Migrations
                     b.Property<string>("GuestListListId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("ListId")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -57,17 +60,21 @@ namespace Magda.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("GuestId")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("OrderId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ListId");
+
+                    b.HasIndex("OrderId")
+                        .IsUnique();
 
                     b.ToTable("GuestList");
                 });
 
             modelBuilder.Entity("Magda.Models.Order", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<string>("OrderId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
@@ -89,7 +96,7 @@ namespace Magda.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("OrderId");
 
                     b.ToTable("Order");
                 });
@@ -298,9 +305,22 @@ namespace Magda.Migrations
 
             modelBuilder.Entity("Magda.Models.Guest", b =>
                 {
-                    b.HasOne("Magda.Models.GuestList", null)
+                    b.HasOne("Magda.Models.GuestList", "GuestList")
                         .WithMany("Guests")
                         .HasForeignKey("GuestListListId");
+
+                    b.Navigation("GuestList");
+                });
+
+            modelBuilder.Entity("Magda.Models.GuestList", b =>
+                {
+                    b.HasOne("Magda.Models.Order", "Order")
+                        .WithOne("GuestList")
+                        .HasForeignKey("Magda.Models.GuestList", "OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -357,6 +377,11 @@ namespace Magda.Migrations
             modelBuilder.Entity("Magda.Models.GuestList", b =>
                 {
                     b.Navigation("Guests");
+                });
+
+            modelBuilder.Entity("Magda.Models.Order", b =>
+                {
+                    b.Navigation("GuestList");
                 });
 #pragma warning restore 612, 618
         }

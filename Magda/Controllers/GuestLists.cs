@@ -56,7 +56,7 @@ namespace Magda.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ListId")] GuestList guestList)
+        public async Task<IActionResult> Create([Bind("OrderId")] GuestList guestList)
         {
             if (ModelState.IsValid)
             {

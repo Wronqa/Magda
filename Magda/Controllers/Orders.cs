@@ -36,7 +36,7 @@ namespace Magda.Controllers
             }
 
             var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.OrderId == id);
             if (order == null)
             {
                 return NotFound();
@@ -90,7 +90,7 @@ namespace Magda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("Id,Name,Date,OrderType,RoomName,AdditionalRemarks")] Order order)
         {
-            if (id != order.Id)
+            if (id != order.OrderId)
             {
                 return NotFound();
             }
@@ -104,7 +104,7 @@ namespace Magda.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderExists(order.Id))
+                    if (!OrderExists(order.OrderId))
                     {
                         return NotFound();
                     }
@@ -127,7 +127,7 @@ namespace Magda.Controllers
             }
 
             var order = await _context.Order
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .FirstOrDefaultAsync(m => m.OrderId == id);
             if (order == null)
             {
                 return NotFound();
@@ -157,7 +157,7 @@ namespace Magda.Controllers
 
         private bool OrderExists(string id)
         {
-          return (_context.Order?.Any(e => e.Id == id)).GetValueOrDefault();
+          return (_context.Order?.Any(e => e.OrderId == id)).GetValueOrDefault();
         }
     }
 }

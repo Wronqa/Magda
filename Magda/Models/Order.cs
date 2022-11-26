@@ -8,7 +8,7 @@ namespace Magda.Models
 	{
 		
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string? Id { get; set; }
+        public string? OrderId { get; set; }
 		public string Name { get; set; }
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
@@ -21,7 +21,7 @@ namespace Magda.Models
         public string RoomName { get; set; }
         public string AdditionalRemarks { get; set; }
 
-
+		public string? ListId { get; set; }
         public GuestList? GuestList { get; set; }
 
         public Order()

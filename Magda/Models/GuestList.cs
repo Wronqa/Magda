@@ -8,14 +8,17 @@ namespace Magda.Models
 	{
 		[Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string ListId { get; set; }
+        public string? ListId { get; set; }
 
-        public List<Guest> Guests { get; set; }
+        public List<Guest>? Guests { get; set; }
 
+		public string OrderId { get; set; }
+		public Order? Order { get; set; }
 
         public GuestList()
 		{
 		}
+
 	}
 }
 
