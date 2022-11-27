@@ -12,6 +12,20 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @if (!(Model.Guests is null))
+            {
+                @foreach (var guest in Model.Guests)
+                {
+                    <p>@guest.Name</p>
+                    <p>@guest.Surname</p>
+
+                }
+            }
+            @using (Html.BeginForm("Create", "EvetGuest", FormMethod.Post))
+            {
+                <input hidden="hidden" name="ListId" type="text" value="@Model.ListId" />
+                <input type="submit" value="Create Guest List" />
+            }
             <input type="hidden" asp-for="ListId" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

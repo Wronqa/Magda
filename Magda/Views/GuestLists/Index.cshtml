@@ -16,14 +16,32 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ListId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ListId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ListId">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (!(item.Guests is null))
+                    {
+                        foreach (var guest in item.Guests)
+                        {
+                            <p>@guest.Name</p>
+                            <p>@guest.Surname</p>
+                            <p>@guest.AdditionalRemarks</p>
+                        }
+                    }
+                    <a asp-action="Edit" asp-route-id="@item.ListId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.ListId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ListId">Delete</a>
+                </td>
+                <td>
+                    @using (Html.BeginForm("Create", "EvetGuest", FormMethod.Post))
+                    {
+                        <input hidden="hidden" name="ListId" type="text" value="@item.ListId" />
+                        <input type="submit" value="Create Guest List" />
+                    }
+                </td>
+            </tr>    
+        }
+
     </tbody>
 </table>
