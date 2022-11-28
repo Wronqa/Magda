@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Magda.Migrations
 {
-    public partial class init : Migration
+    public partial class newDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -57,7 +57,8 @@ namespace Magda.Migrations
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderType = table.Column<int>(type: "int", nullable: false),
                     RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AdditionalRemarks = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AdditionalRemarks = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ListId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -197,7 +198,7 @@ namespace Magda.Migrations
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdditionalRemarks = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ListId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GuestListListId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    GuestListListId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -206,7 +207,8 @@ namespace Magda.Migrations
                         name: "FK_Guest_GuestList_GuestListListId",
                         column: x => x.GuestListListId,
                         principalTable: "GuestList",
-                        principalColumn: "ListId");
+                        principalColumn: "ListId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

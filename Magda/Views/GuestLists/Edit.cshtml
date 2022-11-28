@@ -21,16 +21,16 @@
 
                 }
             }
-            @using (Html.BeginForm("Create", "EvetGuest", FormMethod.Post))
-            {
-                <input hidden="hidden" name="ListId" type="text" value="@Model.ListId" />
-                <input type="submit" value="Create Guest List" />
-            }
             <input type="hidden" asp-for="ListId" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+        @using (Html.BeginForm("Create", "EvetGuest", FormMethod.Post))
+        {
+            <input hidden="hidden" name="ListId" type="text" value="@Model.ListId" />
+            <input type="submit" value="Create Guest List" />
+        }
     </div>
 </div>
 

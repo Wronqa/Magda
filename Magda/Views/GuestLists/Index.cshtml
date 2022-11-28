@@ -34,7 +34,7 @@
                     <a asp-action="Delete" asp-route-id="@item.ListId">Delete</a>
                 </td>
                 <td>
-                    @using (Html.BeginForm("Create", "EvetGuest", FormMethod.Post))
+                    @using (Html.BeginForm("Create", "EvetGuest", FormMethod.Get))
                     {
                         <input hidden="hidden" name="ListId" type="text" value="@item.ListId" />
                         <input type="submit" value="Create Guest List" />

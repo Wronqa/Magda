@@ -32,6 +32,7 @@ namespace Magda.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GuestListListId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ListId")
@@ -308,7 +309,9 @@ namespace Magda.Migrations
                 {
                     b.HasOne("Magda.Models.GuestList", "GuestList")
                         .WithMany("Guests")
-                        .HasForeignKey("GuestListListId");
+                        .HasForeignKey("GuestListListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("GuestList");
                 });

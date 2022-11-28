@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Magda.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221126201116_init")]
-    partial class init
+    [Migration("20221128214844_newDB")]
+    partial class newDB
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,6 +34,7 @@ namespace Magda.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GuestListListId")
+                        .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ListId")
@@ -84,6 +85,9 @@ namespace Magda.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("ListId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -307,7 +311,9 @@ namespace Magda.Migrations
                 {
                     b.HasOne("Magda.Models.GuestList", "GuestList")
                         .WithMany("Guests")
-                        .HasForeignKey("GuestListListId");
+                        .HasForeignKey("GuestListListId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("GuestList");
                 });

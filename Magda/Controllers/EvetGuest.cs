@@ -58,7 +58,8 @@ namespace Magda.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("GuestId,Name,Surname,AdditionalRemarks,ListId")] Guest guest)
         {
-            if (ModelState.IsValid)
+            guest.GuestList = await _context.GuestList.FindAsync(guest.ListId);
+            if (!(ModelState.IsValid) && !(guest.Name is null))
             {
                 _context.Add(guest);
                 await _context.SaveChangesAsync();

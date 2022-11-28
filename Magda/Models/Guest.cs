@@ -21,7 +21,7 @@ namespace Magda.Models
 		
         public string? ListId { get; set; }
 
-        public GuestList? GuestList { get; set; }
+        public GuestList GuestList { get; set; }
 		
 
 		public Guest()
