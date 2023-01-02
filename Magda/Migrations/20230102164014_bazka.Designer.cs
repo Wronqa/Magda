@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Magda.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221128214844_newDB")]
-    partial class newDB
+    [Migration("20230102164014_bazka")]
+    partial class bazka
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -99,6 +99,9 @@ namespace Magda.Migrations
                     b.Property<string>("RoomName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("OrderId");
 

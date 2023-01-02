@@ -28,14 +28,16 @@
                 @Html.DisplayNameFor(model => model.AdditionalRemarks)
             </th>
             <th>
-                LIstId
+                @Html.DisplayNameFor(model => model.Status)
             </th>
-            <th></th>
+            <th>
+                Actions
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+            <tr style="background-color: @(item.Status == 1 ? "#F5F5F5" : "transparent")">
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
@@ -52,8 +54,16 @@
                 @Html.DisplayFor(modelItem => item.AdditionalRemarks)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.GuestList.Order)
+                    @if (item.Status == 1)
+                    {
+                        <text>Zakoñczono</text>
+                    }
+                    else
+                    {
+                        <text>W trakcie realizacji</text>
+                    }
             </td>
+            @if (item.Status == 0) {
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OrderId">Edit</a>
                 @using (Html.BeginForm("Create", "GuestLists", FormMethod.Post))
@@ -62,8 +72,16 @@
                     <input type="submit" value="Create Guest List" />
                 }
                 <a asp-action="Details" asp-route-id="@item.OrderId">Details</a> |
+                <a asp-action="Finish" asp-route-id="@item.OrderId">Finish</a> |
                 <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
             </td>
+            }
+            else {
+                <td>
+                <a asp-action="Details" asp-route-id="@item.OrderId">Details</a>
+                </td>
+            }
+            
         </tr>
 }
     </tbody>

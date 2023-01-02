@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Magda.Migrations
 {
-    public partial class newDB : Migration
+    public partial class bazka : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,6 +58,7 @@ namespace Magda.Migrations
                     OrderType = table.Column<int>(type: "int", nullable: false),
                     RoomName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AdditionalRemarks = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     ListId = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

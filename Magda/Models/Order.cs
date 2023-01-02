@@ -20,7 +20,7 @@ namespace Magda.Models
 		public EventType OrderType { get; set; }
         public string RoomName { get; set; }
         public string AdditionalRemarks { get; set; }
-
+		public int Status { get; set; }
 		public string? ListId { get; set; }
         public GuestList? GuestList { get; set; }
 

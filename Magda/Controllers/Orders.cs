@@ -56,10 +56,11 @@ namespace Magda.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Date,OrderType,RoomName,AdditionalRemarks")] Order order)
+        public async Task<IActionResult> Create([Bind("Id,Name,Date,OrderType,RoomName,AdditionalRemarks,Status")] Order order)
         {
             if (ModelState.IsValid)
             {
+                order.Status = 0;
                 _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -151,6 +152,43 @@ namespace Magda.Controllers
                 _context.Order.Remove(order);
             }
             
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Orders/Finish/5
+        public async Task<IActionResult> Finish(string id)
+        {
+            if (id == null || _context.Order == null)
+            {
+                return NotFound();
+            }
+
+            var order = await _context.Order
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
+            {
+                return NotFound();
+            }
+
+            return View(order);
+        }
+
+        // POST: Orders/Finish/5
+        [HttpPost, ActionName("Finish")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> FinishConfirmed(string id)
+        {
+            if (_context.Order == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Order'  is null.");
+            }
+            var order = await _context.Order.FindAsync(id);
+            if (order != null)
+            {
+                order.Status = 1;
+            }
+
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
