@@ -7,24 +7,45 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Magda.Data;
 using Magda.Models;
+using Microsoft.AspNetCore.Identity;
+using static Magda.Models.User;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Magda.Controllers
 {
+    [Authorize]
     public class Orders : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public Orders(ApplicationDbContext context)
+
+        public Orders(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<User> userManager)
         {
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            Console.WriteLine(userId);
+            //Console.WriteLine(HttpContext.User);
+            _userManager = userManager;
             _context = context;
+        }
+        public async Task<IActionResult> UnAuth()
+        {
+            return View(UnAuth);
         }
 
         // GET: Orders
         public async Task<IActionResult> Index()
         {
-              return _context.Order != null ? 
-                          View(await _context.Order.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Order'  is null.");
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user.userRoleType == Role.Worker)
+            {
+                
+                return _context.Order != null ?
+                            View(await _context.Order.ToListAsync()) :
+                            Problem("Entity set 'ApplicationDbContext.Order'  is null.");
+            }
+            return RedirectToAction(nameof(UnAuth));
         }
 
         // GET: Orders/Details/5

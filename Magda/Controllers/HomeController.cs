@@ -1,9 +1,12 @@
 ﻿using Magda.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace Magda.Controllers
 {
+
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -15,7 +18,7 @@ namespace Magda.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return RedirectToAction("Index", "Orders");
         }
 
         public IActionResult Privacy()

@@ -7,24 +7,43 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Magda.Data;
 using Magda.Models;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using static Magda.Models.User;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Magda.Controllers
 {
+    [Authorize]
     public class EvetGuest : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public EvetGuest(ApplicationDbContext context)
+        public EvetGuest(ApplicationDbContext context, IHttpContextAccessor httpContextAccessor, UserManager<User> userManager)
         {
+            var userId = httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+            Console.WriteLine(userId);
+            //Console.WriteLine(HttpContext.User);
+            _userManager = userManager;
             _context = context;
+        }
+        public async Task<IActionResult> UnAuth()
+        {
+            return View(UnAuth);
         }
 
         // GET: EvetGuest
         public async Task<IActionResult> Index()
         {
-              return _context.Guest != null ? 
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            if (user.userRoleType == Role.Worker)
+            {
+                return _context.Guest != null ? 
                           View(await _context.Guest.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Guest'  is null.");
+            }
+            return RedirectToAction(nameof(UnAuth));
         }
 
         // GET: EvetGuest/Details/5
