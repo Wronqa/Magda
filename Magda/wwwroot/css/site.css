@@ -16,3 +16,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+a {
+    color: #193561;
+    text-decoration: none;
+    font-weight: 600;
+    transition: .2s;
+}
+a:hover {
+    color: #244b8a; text-decoration: underline;
+
+}

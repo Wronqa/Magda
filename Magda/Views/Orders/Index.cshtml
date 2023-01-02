@@ -1,14 +1,12 @@
 @model IEnumerable<Magda.Models.Order>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Orders List";
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+    <h1>Orders List</h1>
+    <a asp-action="Create"><button type="button" class="btn btn-success">Create New</button></a>
+</div>
 <table class="table">
     <thead>
         <tr>
@@ -20,12 +18,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.OrderType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AdditionalRemarks)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Status)
@@ -46,12 +38,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrderType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RoomName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AdditionalRemarks)
             </td>
             <td>
                     @if (item.Status == 1)
@@ -79,6 +65,8 @@
             else {
                 <td>
                 <a asp-action="Details" asp-route-id="@item.OrderId">Details</a>
+                <text>|</text>
+                <a asp-action="Delete" asp-route-id="@item.OrderId">Delete</a>
                 </td>
             }
             
